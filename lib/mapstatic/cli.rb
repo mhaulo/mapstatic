@@ -1,6 +1,7 @@
 require 'mapstatic'
 require 'awesome_print'
 require 'thor'
+require 'json'
 
 class Mapstatic::CLI < Thor
 
@@ -43,10 +44,33 @@ class Mapstatic::CLI < Thor
   def map(filename)
     params = Hash[options.map{|(k,v)| [k.to_sym,v]}]
 
+    if params[:bbox]
+      bbox = params[:bbox].split(",").map { |c| c.to_f }
+      params[:bbox] = bbox
+    end
+
     map = Mapstatic::Map.new(params)
 
+    # TODO Remove this section, it's just for testing purposes
+    #line_string = {
+    #  "type": "Feature",
+    #  "geometry": {
+    #    "type": "LineString",
+    #    "coordinates": [[23.8335, 61.4503], [23.8693, 61.4498]]
+    #  }
+    #}.to_json
+    #map.geojson = line_string
+
     map.render_map(filename) unless options[:dryrun]
-    ap map.metadata
+
+    metadata = {
+      map_bbox: map.viewport.to_a.join(','),
+      width: map.width.to_i,
+      height: map.height.to_i,
+      zoom: map.zoom
+    }
+
+    ap metadata
   end
 
 end

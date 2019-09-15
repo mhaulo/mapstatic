@@ -89,9 +89,10 @@ Mapstatic can be used in your application code to generate maps and get metadata
 ```.ruby
 require 'mapstatic'
 map = Mapstatic::Map.new(
-  :zoom => 12,
-  :bbox => "-0.218894,51.450943,0.014382,51.553755",
-  :provider => 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+  width: 400,
+  height: 200
+  zoom: 11,
+  provider: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 )
 map.render_map 'london.png'
 map.metadata # Returns the map metadata
