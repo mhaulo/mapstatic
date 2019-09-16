@@ -1,17 +1,29 @@
 require 'spec_helper'
 describe Mapstatic::Map do
   it "returns correct width and height" do
-    map = create_map
+    map = Mapstatic::Map.new(
+      lat: 51.515579783755925,
+      lng: -0.1373291015625,
+      zoom: 12,
+      width: 256,
+      height: 256,
+    )
 
-    expect(map.width).to eq(256)
-    expect(map.height).to eq(256)
+    expect(map.width).to eql(256)
+    expect(map.height).to eql(256)
   end
 
   describe "the resulting image" do
 
     it "is the correct image when got via lat lng" do
       output_path = 'london.png'
-      map = create_map
+      map = Mapstatic::Map.new(
+        lat: 51.515579783755925,
+        lng: -0.1373291015625,
+        zoom: 11,
+        width: 256,
+        height: 256,
+      )
       VCR.use_cassette('osm-london') do
         map.render_map output_path
       end
@@ -24,8 +36,6 @@ describe Mapstatic::Map do
       map = Mapstatic::Map.new(
         bbox: [-0.2252197265625,51.4608524464555,-0.0494384765625,51.570241445811234],
         zoom: 11,
-        width: 256,
-        height: 256,
       )
       VCR.use_cassette('osm-london') do
         map.render_map output_path
@@ -39,8 +49,6 @@ describe Mapstatic::Map do
       map = Mapstatic::Map.new(
         bbox: [-0.169851,51.480829,0.027421,51.513658],
         zoom: 12,
-        width: 256,
-        height: 256,
       )
       VCR.use_cassette('osm-thames') do
         map.render_map output_path
@@ -56,9 +64,7 @@ describe Mapstatic::Map do
         output_path = 'london.png'
         map = Mapstatic::Map.new(
           bbox: [-0.2252197265625,51.4608524464555,-0.0494384765625,51.570241445811234],
-          zoom: 12,
-          width: 256,
-          height: 256,
+          zoom: 11,
         )
 
         expect do
@@ -81,18 +87,14 @@ describe Mapstatic::Map do
         map1 = Mapstatic::Map.new(
           bbox: bbox,
           zoom: 6,
-          width: 256,
-          height: 256,
         )
-        expect( map1.width.to_i ).to eql( 625 )
+        #expect( map1.width ).to eql( 625 )
 
         map2 =  Mapstatic::Map.new(
           bbox: bbox,
-          zoom: 7,
-          width: 256,
-          height: 256,
+          zoom: map1.zoom + 1,
         )
-        expect( map2.width.to_i ).to eql( 1250 )
+        expect( map2.width ).to eql( map1.width * 2 )
       end
     end
 
@@ -103,22 +105,18 @@ describe Mapstatic::Map do
     context "when calculated from the bounding box" do
 
       it "doubles with each zoom level" do
-        bbox = [-11.29,49.78,2.45,59.71]
+        bbox = [-11.29, 49.78, 2.45, 59.71]
         map1 = Mapstatic::Map.new(
           bbox: bbox,
           zoom: 2,
-          width: 256,
-          height: 256,
         )
-        expect( map1.height.to_i ).to eql( 49 )
+        expect( map1.height ).to eql( 49 )
 
         map2 = Mapstatic::Map.new(
           bbox: bbox,
           zoom: 3,
-          width: 256,
-          height: 256,
         )
-        expect( map2.height.to_i ).to eql( 98 )
+        expect( map2.height.to_i ).to eql( map1.height * 2 )
       end
     end
 

@@ -60,8 +60,8 @@ module Mapstatic
 
       left      = Conversion.x_to_lng( x - ( width / 2 ), zoom)
       right     = Conversion.x_to_lng( x + ( width / 2 ), zoom)
-      bottom    = Conversion.y_to_lat( y - ( height / 2 ), zoom)
-      top       = Conversion.y_to_lat( y + ( height / 2 ), zoom)
+      bottom    = Conversion.y_to_lat( y + ( height / 2 ), zoom)
+      top       = Conversion.y_to_lat( y - ( height / 2 ), zoom)
 
       BoundingBox.new top: top, bottom: bottom, left: left, right: right
     end

@@ -36,7 +36,7 @@ module Mapstatic
 
     def required_y_tiles
       left, bottom, right, top = @map.viewport.to_xy_coordinates(@map.zoom)
-      Range.new(*[bottom, top].map(&:floor)).to_a
+      Range.new(*[top, bottom].map(&:floor)).to_a
     end
 
     def create_uncropped_image
@@ -81,7 +81,7 @@ module Mapstatic
 
     def crop_to_size
       distance_from_left =  (@map.viewport.to_xy_coordinates(@map.zoom)[0] - required_x_tiles[0]) * Map::TILE_SIZE
-      distance_from_top  =  (@map.viewport.to_xy_coordinates(@map.zoom)[1] - required_y_tiles[0]) * Map::TILE_SIZE
+      distance_from_top  =  (@map.viewport.to_xy_coordinates(@map.zoom)[3] - required_y_tiles[0]) * Map::TILE_SIZE
 
       @image.crop "#{@map.width}x#{@map.height}+#{distance_from_left}+#{distance_from_top}"
     end

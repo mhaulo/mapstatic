@@ -7,18 +7,18 @@ describe Mapstatic::Painter::NullPainter do
   end
 
   it "should draw without errors" do
-    # Utilize Tempfile to create a unique filename. We don't the file itself for anything,
-    # only to ensure we have a file path we can safely copy into.
-    tmpfile = Tempfile.new ["foo", ".png"]
-    filename = tmpfile.path
-    tmpfile.close
-    tmpfile.unlink
-    FileUtils.cp "spec/fixtures/maps/london.png", filename
-
-    image = MiniMagick::Image.new filename
+    test_file = tempfile
+    FileUtils.cp "spec/fixtures/maps/london.png", test_file
+    image = MiniMagick::Image.new test_file
     image.resize "256x256"
 
-    map = create_map
+    map = Mapstatic::Map.new(
+      lat: 51.515579783755925,
+      lng: -0.1373291015625,
+      zoom: 11,
+      width: 256,
+      height: 256,
+    )
     feature = line_string
     map.geojson = feature
     map.fit_bounds

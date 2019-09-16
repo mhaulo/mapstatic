@@ -15,16 +15,16 @@ module Mapstatic
         left, bottom, right, top = params[:bbox]
         @viewport = BoundingBox.new top: top, bottom: bottom, left: left, right: right
       else
-        width  = params.fetch(:width).to_f
-        height = params.fetch(:height).to_f
+        @width  = params.fetch(:width)
+        @height = params.fetch(:height)
         lat    = params.fetch(:lat).to_f
         lng    = params.fetch(:lng).to_f
 
         @viewport = BoundingBox.from(
           center_lat: lat,
           center_lng: lng,
-          width: width / TILE_SIZE,
-          height: height / TILE_SIZE,
+          width: @width.to_f / TILE_SIZE,
+          height: @height.to_f / TILE_SIZE,
           zoom: @zoom
         )
       end
@@ -37,13 +37,17 @@ module Mapstatic
     end
 
     def width
-      delta = Conversion.lng_to_x(viewport.right, zoom) - Conversion.lng_to_x(viewport.left, zoom)
-      (delta * TILE_SIZE).round
+      @width || begin
+        delta = Conversion.lng_to_x(viewport.right, zoom) - Conversion.lng_to_x(viewport.left, zoom)
+        (delta * TILE_SIZE).to_i.abs
+      end
     end
 
     def height
-      delta = Conversion.lat_to_y(viewport.top, zoom) - Conversion.lat_to_y(viewport.bottom, zoom)
-      (delta * TILE_SIZE).round
+      @height || begin
+        delta = Conversion.lat_to_y(viewport.top, zoom) - Conversion.lat_to_y(viewport.bottom, zoom)
+        (delta * TILE_SIZE).to_i.abs
+      end
     end
 
     def geojson=(data)
