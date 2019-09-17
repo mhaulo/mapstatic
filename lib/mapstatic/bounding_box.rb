@@ -39,17 +39,13 @@ module Mapstatic
     end
 
     def self.for(coordinates)
-      right = top = -Float::MAX
-      left = bottom = Float::MAX
+      lngs = coordinates.map {|point| point[0]}
+      lats = coordinates.map {|point| point[1]}
 
-      coordinates.each do |point|
-        x = point[0]
-        y = point[1]
-        top = y if y > top
-        bottom = y if y < bottom
-        right = x if x > right
-        left = x if x < left
-      end
+      left   = lngs.min
+      bottom = lats.min
+      right  = lngs.max
+      top    = lats.max
 
       BoundingBox.new top: top, bottom: bottom, left: left, right: right
     end
