@@ -31,12 +31,12 @@ module Mapstatic
 
     def required_x_tiles
       left, bottom, right, top = @map.viewport.to_xy_coordinates(@map.zoom)
-      Range.new(*[left, right].map(&:floor)).to_a
+      Range.new(*[left, right].map(&:floor).sort).to_a
     end
 
     def required_y_tiles
       left, bottom, right, top = @map.viewport.to_xy_coordinates(@map.zoom)
-      Range.new(*[top, bottom].map(&:floor)).to_a
+      Range.new(*[bottom, top].map(&:floor).sort).to_a
     end
 
     def create_uncropped_image

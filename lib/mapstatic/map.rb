@@ -39,14 +39,14 @@ module Mapstatic
     def width
       @width || begin
         delta = Conversion.lng_to_x(viewport.right, zoom) - Conversion.lng_to_x(viewport.left, zoom)
-        (delta * TILE_SIZE).to_i.abs
+        (delta * TILE_SIZE).abs
       end
     end
 
     def height
       @height || begin
         delta = Conversion.lat_to_y(viewport.top, zoom) - Conversion.lat_to_y(viewport.bottom, zoom)
-        (delta * TILE_SIZE).to_i.abs
+        (delta * TILE_SIZE).abs
       end
     end
 

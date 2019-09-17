@@ -88,13 +88,13 @@ describe Mapstatic::Map do
           bbox: bbox,
           zoom: 6,
         )
-        #expect( map1.width ).to eql( 625 )
+        expect( map1.width.to_i ).to eql( 625 )
 
         map2 =  Mapstatic::Map.new(
           bbox: bbox,
           zoom: map1.zoom + 1,
         )
-        expect( map2.width ).to eql( map1.width * 2 )
+        expect( map2.width.to_i ).to eql( map1.width.to_i * 2 )
       end
     end
 
@@ -110,13 +110,13 @@ describe Mapstatic::Map do
           bbox: bbox,
           zoom: 2,
         )
-        expect( map1.height ).to eql( 49 )
+        expect( map1.height.to_i ).to eql( 49 )
 
         map2 = Mapstatic::Map.new(
           bbox: bbox,
           zoom: 3,
         )
-        expect( map2.height.to_i ).to eql( map1.height * 2 )
+        expect( map2.height.to_i ).to eql( map1.height.to_i * 2 )
       end
     end
 
