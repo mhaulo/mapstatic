@@ -13,6 +13,33 @@ describe Mapstatic::Map do
     expect(map.height).to eql(256)
   end
 
+  it "doesn't crash when trying to fit bounds with no geojson data provided" do
+    map = Mapstatic::Map.new(
+      lat: 51.515579783755925,
+      lng: -0.1373291015625,
+      zoom: 12,
+      width: 256,
+      height: 256,
+    )
+
+    expect do
+      map.fit_bounds
+    end.not_to raise_error
+  end
+
+  it "should store width and height as integers" do
+    map = Mapstatic::Map.new(
+      lat: 51.515579783755925,
+      lng: -0.1373291015625,
+      zoom: 12,
+      width: "256", # Notice that width and height are given as strings
+      height: "256",
+    )
+
+    expect(map.width.is_a? Integer).to be true
+    expect(map.height.is_a? Integer).to be true
+  end
+
   describe "the resulting image" do
 
     it "is the correct image when got via lat lng" do

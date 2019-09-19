@@ -38,6 +38,14 @@ module Mapstatic
       other.fits_in? self
     end
 
+    def set_to(other, padding: 0)
+      # TODO add padding
+      @left   = other.left
+      @right  = other.right
+      @top    = other.top
+      @bottom = other.bottom
+    end
+
     def self.for(coordinates)
       lngs = coordinates.map {|point| point[0]}
       lats = coordinates.map {|point| point[1]}

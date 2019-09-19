@@ -1,4 +1,5 @@
 require 'mapstatic'
+require 'mapstatic/gpx_file'
 require 'vcr'
 require 'json'
 

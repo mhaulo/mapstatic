@@ -1,4 +1,5 @@
 require 'mapstatic'
+require 'mapstatic/gpx_file'
 require 'awesome_print'
 require 'thor'
 require 'json'
@@ -39,6 +40,7 @@ class Mapstatic::CLI < Thor
   option :lng
   option :width,  :default => 256
   option :height, :default => 256
+  option :gpx
   option :dryrun, :type => :boolean, :default => false
 
   def map(filename)
@@ -60,6 +62,17 @@ class Mapstatic::CLI < Thor
     #  }
     #}.to_json
     #map.geojson = line_string
+
+    if options[:gpx]
+      gpx_file = Mapstatic::GpxFile.new options[:gpx]
+      geojson_data = gpx_file.geojson_data
+
+      # Drawing only one geojson feature is supported at the moment. So just pick
+      # the first one on the file.
+      first_track = geojson_data[:features].first
+      map.geojson = first_track
+      map.fit_bounds
+    end
 
     map.render_map(filename) unless options[:dryrun]
 

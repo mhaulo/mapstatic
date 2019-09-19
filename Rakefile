@@ -44,6 +44,7 @@ spec = Gem::Specification.new do |s|
   # s.add_dependency("some_other_gem", "~> 0.1.0")
   s.add_dependency('mini_magick', '~> 4.9')
   s.add_dependency('typhoeus', '~> 1.3')
+  s.add_dependency('nokogiri')
 
   s.add_development_dependency('thor', ['>= 0.19.0', '< 2.0']) # install these if you want to use command line env
   s.add_development_dependency('awesome_print', '< 2.0') # install these if you want to use command line env

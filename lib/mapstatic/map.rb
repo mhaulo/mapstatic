@@ -15,10 +15,10 @@ module Mapstatic
         left, bottom, right, top = params[:bbox]
         @viewport = BoundingBox.new top: top, bottom: bottom, left: left, right: right
       else
-        @width  = params.fetch(:width)
-        @height = params.fetch(:height)
-        lat    = params.fetch(:lat).to_f
-        lng    = params.fetch(:lng).to_f
+        @width  = params.fetch(:width).to_i
+        @height = params.fetch(:height).to_i
+        lat    = params.fetch(:lat, 0).to_f
+        lng    = params.fetch(:lng, 0).to_f
 
         @viewport = BoundingBox.from(
           center_lat: lat,
@@ -53,8 +53,10 @@ module Mapstatic
     def geojson=(data)
       if data.is_a? String
         @geojson = JSON.parse data
-      else
-        @geojson = data
+      elsif data.is_a? Hash
+        # This looks really ugly, but it's just a quick and dirty way to ensure that keys in
+        # the hash are strings, not symbols.
+        @geojson = JSON.parse data.to_json
       end
     end
 
@@ -63,12 +65,7 @@ module Mapstatic
 
       coordinates = @geojson["geometry"]["coordinates"]
       geojson_bounding_box = BoundingBox.for(coordinates)
-
-      # TODO  add padding
-      @viewport.left =   geojson_bounding_box.left
-      @viewport.right =  geojson_bounding_box.right
-      @viewport.top =    geojson_bounding_box.top
-      @viewport.bottom = geojson_bounding_box.bottom
+      @viewport.set_to geojson_bounding_box
     end
 
     def to_image
