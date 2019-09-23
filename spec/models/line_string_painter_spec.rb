@@ -28,7 +28,7 @@ describe Mapstatic::Painter::LineStringPainter do
     map.fit_bounds
 
     painter = Mapstatic::Painter::LineStringPainter.new(map: map, feature: JSON.parse(feature))
-    painter.paint_to image
+    painter.paint_to image, map.viewport
 
     expect(image.type).to eq("PNG")
 
