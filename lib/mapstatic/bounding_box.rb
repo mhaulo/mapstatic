@@ -30,6 +30,16 @@ module Mapstatic
       {lat: lat, lng: lng}
     end
 
+    def width_at(zoom)
+      delta = Conversion.lng_to_x(right, zoom) - Conversion.lng_to_x(left, zoom)
+      (delta * Map::TILE_SIZE).abs
+    end
+
+    def height_at(zoom)
+      delta = Conversion.lat_to_y(top, zoom) - Conversion.lat_to_y(bottom, zoom)
+      (delta * Map::TILE_SIZE).abs
+    end
+
     def fits_in?(other)
       left >= other.left and right <= other.right and top <= other.top and bottom >= other.bottom
     end

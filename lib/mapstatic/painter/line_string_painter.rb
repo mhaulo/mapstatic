@@ -4,7 +4,7 @@ module Mapstatic
       geometry_type == "LineString"
     end
 
-    def paint_to(image)
+    def paint_to(image, viewport)
       # Convert coordinates to the corresponding pixel locations on
       # image canvas.
       # This is a two step process:
@@ -20,15 +20,15 @@ module Mapstatic
       xy_points = coordinates.map do |coordinate|
         px = Conversion.x_to_px(
             Conversion.lng_to_x(coordinate[0], map.zoom),
-            Conversion.lng_to_x(map.viewport.center[:lng], map.zoom),
-            map.width,
+            Conversion.lng_to_x(viewport.center[:lng], map.zoom),
+            viewport.width_at(map.zoom),
             Map::TILE_SIZE
         )
 
         py = Conversion.y_to_px(
             Conversion.lat_to_y(coordinate[1], map.zoom),
-            Conversion.lat_to_y(map.viewport.center[:lat], map.zoom),
-            map.height,
+            Conversion.lat_to_y(viewport.center[:lat], map.zoom),
+            viewport.height_at(map.zoom),
             Map::TILE_SIZE
         )
 

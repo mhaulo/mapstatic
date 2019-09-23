@@ -18,7 +18,7 @@ module Mapstatic
     end
 
     # Implement this method in a subclass, have it return an ImageMagick Image.
-    def paint_to(image)
+    def paint_to(image, viewport)
       raise NotImplementedError
     end
   end
