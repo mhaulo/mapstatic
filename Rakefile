@@ -24,7 +24,7 @@ spec = Gem::Specification.new do |s|
   s.name              = "mapstatic"
   s.version           = Mapstatic::VERSION
   s.summary           = "Static Map Generator"
-  s.author            = "James Croft"
+  s.authors           = ["James Croft", "Mika Haulo"]
   s.email             = "james@matchingnotes.com"
   s.homepage          = "https://github.com/crofty/mapstatic"
 

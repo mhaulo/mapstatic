@@ -23,8 +23,8 @@ describe Mapstatic::Painter::NullPainter do
     map.geojson = feature
     map.fit_bounds
 
-    painter = Mapstatic::Painter::NullPainter.new(map: map, feature: JSON.parse(feature))
-    painter.paint_to image
+    painter = Mapstatic::Painter::NullPainter.new(map: map, feature: feature)
+    painter.paint_to image, map.viewport
 
     expect(image.type).to eq("PNG")
   end

@@ -40,6 +40,36 @@ describe Mapstatic::Map do
     expect(map.height.is_a? Integer).to be true
   end
 
+  it "should be able to take geojson data as a Hash" do
+    map = Mapstatic::Map.new(
+      lat: 51.515579783755925,
+      lng: -0.1373291015625,
+      zoom: 12,
+      width: 256,
+      height: 256,
+    )
+
+    expect do
+      map.geojson = line_string
+      map.fit_bounds
+    end.not_to raise_error
+  end
+
+  it "should be able to take geojson data as a GeoJSON string" do
+    map = Mapstatic::Map.new(
+      lat: 51.515579783755925,
+      lng: -0.1373291015625,
+      zoom: 12,
+      width: 256,
+      height: 256,
+    )
+
+    expect do
+      map.geojson = line_string.to_json
+      map.fit_bounds
+    end.not_to raise_error
+  end
+
   describe "the resulting image" do
 
     it "is the correct image when got via lat lng" do

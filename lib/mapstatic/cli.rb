@@ -31,6 +31,10 @@ class Mapstatic::CLI < Thor
      OpenStreetMap contributors).
 
      You can generate a map using any tile set by passing the --provider option.
+
+     To draw a gpx track on top of the map, you can pass a file with --gpx:
+
+     $ mapstatic map uk.png --zoom=6 --width=320 --height=290 --gpx=file.gpx
   LONGDESC
 
   option :zoom,     :required => true
@@ -52,16 +56,6 @@ class Mapstatic::CLI < Thor
     end
 
     map = Mapstatic::Map.new(params)
-
-    # TODO Remove this section, it's just for testing purposes
-    #line_string = {
-    #  "type": "Feature",
-    #  "geometry": {
-    #    "type": "LineString",
-    #    "coordinates": [[23.8335, 61.4503], [23.8693, 61.4498]]
-    #  }
-    #}.to_json
-    #map.geojson = line_string
 
     if options[:gpx]
       gpx_file = Mapstatic::GpxFile.new options[:gpx]

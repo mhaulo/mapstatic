@@ -79,10 +79,10 @@ module Mapstatic
       right = Conversion.x_to_lng(required_x_tiles.last+1, @map.zoom)
       bottom = Conversion.y_to_lat(required_y_tiles.last+1, @map.zoom)
 
-      canvas = BoundingBox.new left: left, bottom: bottom, right: right, top: top
+      uncropped_viewport = BoundingBox.new left: left, bottom: bottom, right: right, top: top
 
       features&.each do |feature|
-        painter_for(feature).paint_to(@image, canvas)
+        painter_for(feature).paint_to(@image, uncropped_viewport)
       end
     end
 

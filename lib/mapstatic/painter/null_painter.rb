@@ -4,7 +4,7 @@ module Mapstatic
       true
     end
 
-    def paint_to(image)
+    def paint_to(image, viewport)
       # Do nothing, just return the original image.
       image
     end

@@ -23,7 +23,7 @@ describe Mapstatic::Painter::LineStringPainter do
       width: 256,
       height: 256,
     )
-    feature = line_string
+    feature = line_string.to_json
     map.geojson = feature
     map.fit_bounds
 

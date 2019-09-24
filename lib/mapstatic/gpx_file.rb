@@ -31,8 +31,6 @@ module Mapstatic
     private
 
     def parse
-      # The order of coordinates in this method is lon, lat as per GeoJSON spec.
-
       xml = Nokogiri::XML File.open(@filename)
 
       xml.css("trk").each do |trk|
